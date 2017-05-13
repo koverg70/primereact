@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 export class AccordionTab extends Component {
-    
+
 }
 
 AccordionTab.defaultProps = {
@@ -33,12 +33,12 @@ export class Accordion extends Component {
         onTabOpen: PropTypes.func,
         onTabClose: PropTypes.func
     };
-    
+
     constructor() {
         super();
         this.state = {};
     }
-    
+
     onTabClick(e, i) {
         var selected = this.isSelected(i);
 
@@ -69,7 +69,19 @@ export class Accordion extends Component {
     isSelected(i) {
         return this.props.multiple ? this.state.activeIndex && this.state.activeIndex.includes(i) : this.state.activeIndex === i;
     }
-        
+
+    componentWillMount() {
+        if (this.props.activeIndex !== undefined) {
+ 		       this.setState({activeIndex: this.props.activeIndex});
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.activeIndex !== this.props.activeIndex) {
+            this.setState({activeIndex: nextProps.activeIndex});
+        }
+    }
+
     render() {
         return (
             <div className={classNames('ui-accordion ui-widget ui-helper-reset', this.props.className)} style={this.props.style}>
